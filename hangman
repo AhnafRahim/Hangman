@@ -1,0 +1,162 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+/***
+ * Name: Ahnaf Rahim
+ * C++ Class
+ * Mr.Giordano
+ * */
+
+
+
+//Method to print the array 
+void printArray(char arr[], int size)
+{
+  for(int i = 0; i < size; i++){
+    cout << arr[i] << " ";
+  }
+
+  cout << endl;
+}
+
+//Generates a random word from the dataset of categores 
+string randWord()
+{
+  //generate a completely rand number 
+  srand(time(NULL));
+  int category;
+
+  //get user input on the category they want to see 
+  cout << "Choose a Category:\n1. U.S. Cities\n2. U.S States\n3. School Subjects\n4. Food\n5. Animals\n";
+  cin >> category;
+
+  //different categories avaliable 
+  string usCities[14] = {"new york city", "dallas", "philadelphia", "san antonio", "miami", "boston", "los angeles", "chicago", "detroit", "cleveland", "salt lake city", "trenton", "newark", "baltimore"};
+  string animals[15] = {"chicken", "pig", "dog", "cat", "bird", "eagle", "tiger", "lion", "bear", "hawk", "horse", "snake", "elephant", "giraffe", "turkey"};
+  string subjects[20] = {"english", "literature", "science", "history", "economics", "chemistry", "biology", "physics", "algebra", "geometry", "calculus", "statistics", "mythology", "computer science", "physical education", "drivers education", "health", "music", "fashion", "programming"};
+  string food[9] = {"apple", "strawberry", "pizza", "hamburger", "hot dog", "fried chicken", "mashed potatoes", "steak", "burrito"};
+  string states[50] = {"alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island", "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia", "wisconsin", "wyoming"};
+  
+  cout << "The category is: ";
+  //switch statement for the categories 
+  switch(category)
+  {
+    case 1:
+      cout << "city\n";
+      return usCities[rand()%14];
+      break;
+    case 2:
+      cout << "U.S. State\n";
+      return states[rand()%50];
+      break;
+    case 3:
+       cout << "school subjects\n";
+      return subjects[rand()%20];
+      break;
+    case 4:
+      cout << "food\n";
+      return food[rand()%9];
+      break;
+    case 5:
+      cout << "animals\n";
+      return animals[rand()%15];
+      break;
+ 
+  }
+
+
+
+//calling methods 
+void printArr(char arr[], int size);
+string randWord();
+
+
+//main method
+int main() 
+{
+  //Variables to keep the game running
+  bool ongoingGame;
+  int newGame;
+  do
+  {
+    //Variables 
+    string answer = randWord();
+    int size = answer.length();
+    char word[size], blank[size], guess;
+    int guesses = 10;
+    int numLetters = size;
+    bool unanswered = true, win = false;
+
+    
+    for(int i = 0; i < size; i++){
+      word[i] = answer.at(i);
+      if(answer.at(i) == ' '){
+        blank[i] = ' ';
+        numLetters--;
+      }
+      else
+        blank[i] = '_';
+    }
+
+
+    do{
+      bool inString = false;
+      printArr(blank, size);
+      //User takes guesses 
+      cout << guesses << " wrong guesses remain. ";
+      cout << "Enter a letter: ";
+      cin >> guess;
+
+      //Traverses through to see if the word has the letter guessed
+      for(int i = 0; i < size; i++){
+        if(word[i] == guess){
+          blank[i] = guess;
+          numLetters--;
+          inString = true;
+        }
+      }
+
+      //If wrong, lower guesses by 1 
+      if(!inString){
+        guesses--;
+      }
+
+      //Lose condition 
+      if(guesses == 0){
+        break;
+        win = false;
+      }
+
+      //Win condition
+      if(numLetters == 0){
+        win = true;
+        unanswered = false;
+      }
+
+    }
+    while(unanswered);
+
+    printArr(word, size);
+    if(win){
+      cout << "You correctly guessed the word.";
+    }
+    else{
+      cout << "Sorry you have failed.";
+    }
+
+    //Restart game option
+    cout << "\n\nDo you want to play again?\n1.Yes\n2.No\n";
+    cin >> newGame;
+
+    if(newGame == 1){
+      ongoingGame = true;
+    }
+    else{
+      ongoingGame = false;
+    }
+  }
+  while(ongoingGame);
+}
+
+}
