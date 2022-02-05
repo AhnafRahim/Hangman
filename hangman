@@ -11,7 +11,7 @@ using namespace std;
 
 
 //Method to print the array 
-void printArray(char arr[], int size)
+void printArr(char arr[], int size)
 {
   for(int i = 0; i < size; i++){
     cout << arr[i] << " ";
